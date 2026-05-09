@@ -5,6 +5,17 @@
 ---
 
 ## File Structure
+```
+/
+...
+├── data/
+├── notebooks/
+│
+├── clean_text.py        # originally Sayar's
+│
+├── conda_environment.yaml
+└── requirements.txt
+```
 
 ---
 
@@ -21,6 +32,8 @@
 ---
 
 ## References
+
+- https://github.com/ye-kyaw-thu/AIE-F/tree/main/slide-code/class-15/LM-Tutorial
 
 ---
 
