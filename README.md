@@ -20,6 +20,16 @@
 ---
 
 ## Dataset
+### Train Data
+- [Myanmar ALT](https://www2.nict.go.jp/astrec-att/member/mutiyama/ALT/my-alt-190530.zip) from [ALT Treebank Corpus](https://www2.nict.go.jp/astrec-att/member/mutiyama/ALT/)
+- [Sayar's myPos version 3.0](https://github.com/ye-kyaw-thu/myPOS/blob/master/corpus-ver-3.0/corpus/mypos-ver.3.0.txt)
+- https://huggingface.co/datasets/ayehninnkhine/myanmar_news
+- https://huggingface.co/datasets/kalixlouiis/myanmar-wikipedia
+
+### Test Data
+- Custom data in the news article domain
+- Custom data in the religious text domain
+- Custom data in the legal document domain
 
 ## Data Collection
 
