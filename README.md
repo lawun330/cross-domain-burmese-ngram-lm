@@ -11,7 +11,7 @@
 ├── data/
 ├── notebooks/
 │
-├── clean_text.py        # originally Sayar's
+├── clean_text.py        # originally Sayar's # modified to remove word tags
 │
 ├── conda_environment.yaml
 └── requirements.txt
@@ -23,7 +23,7 @@
 ### Train Data
 - [Myanmar ALT](https://www2.nict.go.jp/astrec-att/member/mutiyama/ALT/my-alt-190530.zip) from [ALT Treebank Corpus](https://www2.nict.go.jp/astrec-att/member/mutiyama/ALT/)
 - [Sayar's myPos version 3.0](https://github.com/ye-kyaw-thu/myPOS/blob/master/corpus-ver-3.0/corpus/mypos-ver.3.0.txt)
-- https://huggingface.co/datasets/URajinda/myanmar_spoken_corpus_v4_cleaned
+- https://huggingface.co/datasets/URajinda/myanmar_spoken_corpus_v4_cleaned (Discarded later due to RAM issue)
 
 ### Test Data
 - Custom data in the news article domain
@@ -31,6 +31,8 @@
 - Custom data in the legal document domain
 
 ## Data Collection
+
+The training data were imported from various existing sources, with word tags removed and the datasets combined to create a larger corpus. The test data were collected manually and cleaned.
 
 ## Environment Setup
 
