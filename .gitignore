@@ -1,3 +1,12 @@
+# cache files
 .ipynb_checkpoints/
-.env
 __pycache__/
+logs/
+.DS_Store
+
+# very large corpus (unused)
+data/train/combined_raw.txt
+data/train/combined_cleaned.txt
+
+# environment variables
+.env
