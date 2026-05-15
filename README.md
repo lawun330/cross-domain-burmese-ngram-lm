@@ -1,7 +1,8 @@
-# Burmese Domain-Specific Language Model
+# Cross-Domain Burmese N-gram Language Modeling
 
 ## Overview
 
+This project trains Burmese n-gram language models with KenLM, SRILM, and Neural LM (LSTM) on a shared corpus, then compares toolkit performance and perplexity across news, legal, and religious test domains to study cross-domain generalization.
 
 ## File Structure
 ```
@@ -11,16 +12,25 @@
 │   ├── train/
 │   └── test/
 │
+├── img/
 ├── notebooks/
 ├── models/
+├── oppaword/              # originally Sayar's
+├── syl-normalizer/        # originally Sayar's
 │
-├── clean_text.py        # originally Sayar's # modified to remove word tags
-├── eval_kenlm.py        # originally Sayar's
-├── lstm_lm.py           # originally Sayar's
+├── clean_text.py          # originally Sayar's # modified to remove word tags
+├── eval_kenlm.py          # originally Sayar's # modified to compute BPC
+├── lstm_lm.py             # originally Sayar's
 │
 ├── conda_environment.yaml
 └── requirements.txt
 ```
+
+## Environment Setup
+
+- Install KenLM from https://github.com/kpu/kenlm
+- Install SRILM from https://github.com/BitSpeech/SRILM
+- Install dependencies from requirements.txt or conda_environment.yaml
 
 ---
 
@@ -48,11 +58,15 @@ Test domains were chosen manually, collected by hand, and preprocessed with the 
 
 ---
 
-## Environment Setup
-
----
-
 ## Models
+
+### KenLM
+![KenLM Model Training Diagram](img/kenlm_2g_vs_3g_metrics.png)
+
+### SRILM
+
+
+### Neural LM (LSTM)
 
 ---
 
