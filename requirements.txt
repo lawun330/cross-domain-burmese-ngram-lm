@@ -1,0 +1,17 @@
+# python 3.12+ recommended (see conda_environment.yaml)
+# kenlm and srilm CLI tools are installed separately; see README Environment Setup
+
+# evaluation and notebooks
+kenlm==0.2.0
+numpy==2.4.4
+pandas==3.0.3
+matplotlib==3.10.9
+
+# prep_train_data_v1 (hugging face spoken corpus)
+datasets==4.8.5
+huggingface-hub==1.14.0
+
+# jupyter notebooks
+jupyter==1.1.1
+jupyterlab==4.5.7
+ipykernel==7.2.0
