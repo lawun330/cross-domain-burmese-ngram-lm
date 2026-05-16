@@ -9,9 +9,10 @@ This project trains Burmese n-gram language models with KenLM and SRILM on a sha
 ## Dataset
 
 ### Train Data (General LM)
+
 - [Myanmar ALT](https://www2.nict.go.jp/astrec-att/member/mutiyama/ALT/my-alt-190530.zip) from [ALT Treebank Corpus](https://www2.nict.go.jp/astrec-att/member/mutiyama/ALT/)
 - [Sayar's myPos version 3.0](https://github.com/ye-kyaw-thu/myPOS/blob/master/corpus-ver-3.0/corpus/mypos-ver.3.0.txt)
-- https://huggingface.co/datasets/URajinda/myanmar_spoken_corpus_v4_cleaned (Discarded later due to RAM issue)
+- [Hugging Face Myanmar Spoken Corpus v4](https://huggingface.co/datasets/URajinda/myanmar_spoken_corpus_v4_cleaned) **(Discarded later due to RAM issue)**
 
 ### Train Data (Domain-Specific LM) && Test Data
 
@@ -21,13 +22,31 @@ This project trains Burmese n-gram language models with KenLM and SRILM on a sha
 
 ## Data Collection & Preprocessing
 
-### Train Data
-Training data come from existing corpora: word tags are removed, the sources are merged, then passed through syllable normalization (`syl-normalizer`) and OppaWord segmentation to produce the final train corpus.
+### Train Data (General LM)
 
-In `prep_train_data_v1`, the Hugging Face spoken corpus was included; the merged file exceeded 3 GB and could not be loaded on a machine with limited RAM. `prep_train_data_v2` drops that corpus and uses only the ALT and myPOS datasets.
+- `prep_train_data_v1` = ALT + myPOS + Hugging Face spoken corpus $\rightarrow$ 3 GB $\rightarrow$ does not fit in limited RAM
+- `prep_train_data_v2` = ALT + myPOS $\rightarrow$ good size $\rightarrow$ used for general-LM training
 
-### Test Data
-Test domains were chosen manually, collected by hand, and preprocessed with the same pipeline (punctuation/tag cleaning, syllable normalization, OppaWord). Sentences are split on Burmese full stops (`။`); very short lines (e.g. legal section numbers) are dropped. Remaining syllables are realigned into a fixed grid of 20 syllables per line and 15 lines per document (300 syllables per document), with the same document count across all three domains. The balanced outputs are saved as `*.cleaned.state4`.
+### Train Data (Domain-Specific LM) && Test Data
+
+Domain-specific train and test corpora use the per-domain custom sources above, not the merged general corpus. Domains are chosen manually; raw text is collected by hand.
+- `prep_domain_train_data_v1` = domain-specific training corpora (news, legal, religion)
+- `prep_test_data_v1` = held-out test corpora for the same three domains
+
+### All Preprocessing Steps
+
+1. Punctuation and tag cleaning with `clean_text.py` $\rightarrow$ `.cleaned.state1`
+2. Syllable normalization with `syl-normalizer` $\rightarrow$ `.cleaned.state2`
+3. OppaWord segmentation $\rightarrow$ `.cleaned.state3`
+4. Standardize syllable layout (drop short lines; 20 syllables/line, 15 lines/document) $\rightarrow$ `.cleaned.state4` *(test only)*
+5. Line-level train/dev split $\rightarrow$ `*.train`, `*.dev` *(domain-specific train only)*
+
+### Which Corpora Use Which Steps?
+| Corpus | Merge | `။` split | 1 | 2 | 3 | 4 | 5 | Final artifact |
+|--------|:-----:|:---------:|:-:|:-:|:-:|:-:|:-:|----------------|
+| General LM train     | ✓ |   | ✓ | ✓ | ✓ |   |   | `combined_2.cleaned.state3` |
+| Domain LM train (×3) |   |   | ✓ | ✓ | ✓ |   | ✓ | `train_*.cleaned.state3` → `*.train`, `*.dev` |
+| Test (×3)            |   | ✓ | ✓ | ✓ | ✓ | ✓ |   | `*.cleaned.state4` |
 
 ---
 
@@ -104,20 +123,20 @@ Test domains were chosen manually, collected by hand, and preprocessed with the 
 └── requirements.txt
 ```
 
-## File formats
+## File Formats
 
-### Language models
+### LMs
 
 - **`.arpa`**: ARPA-format n-gram language model.
 - **`.arpa.binary`**, **`.arpa.ken.binary`**: KenLM binary model (from KenLM `build_binary`).
 - **`.arpa.bin`**: SRILM binary model (from SRILM `ngram -write-bin-lm`).
 - **`.arpa.error`**: stderr when building an ARPA model.
 
-### Evaluation/tuning artifacts
+### Evaluation Artifacts
 
 - **`.ppl`**: Perplexity / debugging output for `compute-best-mix` (from SRILM `ngram -ppl`).
 
-### Text corpora
+### Text Corpora
 
 - **`.raw`**: Unprocessed text.
 - **`.cleaned.state1`**: After punctuation and word/POS tags removal (`clean_text.py`).
@@ -125,16 +144,20 @@ Test domains were chosen manually, collected by hand, and preprocessed with the 
 - **`.cleaned.state3`**: After word segmentation (`oppaword/`); typical line input for training general LMs.
 - **`.cleaned.state4`**: Further standardized token layout used for test sets only.
 
-### Train/dev splits
+### Train/Dev Splits
 
 - **`.train`**: In-domain training split for domain-specific LMs.
 - **`.dev`**: In-domain development split for tuning interpolation weights.
+
+---
 
 ## Environment Setup
 
 - Install KenLM from https://github.com/kpu/kenlm
 - Install SRILM from https://github.com/BitSpeech/SRILM
 - Install dependencies from `requirements.txt` or `conda_environment.yaml`
+
+---
 
 ## References
 
