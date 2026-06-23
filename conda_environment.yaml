@@ -1,4 +1,4 @@
-name: lu_cross_domain_burmese_ngram_lm_env
+name: lu_aief_cross_domain_lm_env
 channels:
   - conda-forge
   - defaults
